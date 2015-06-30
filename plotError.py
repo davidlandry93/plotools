@@ -1,27 +1,22 @@
 #!/usr/bin/env python
 
 import argparse
+import numpy
 import matplotlib.pyplot as plt
 import rosbag
+import RosTools
 
 parser = argparse.ArgumentParser(description='Plot the error values from a teach and repeat bag.')
 parser.add_argument('bagfile', type=file, help='The name of the bag to parse')
 ns = parser.parse_args()
 
 bag = rosbag.Bag(ns.bagfile)
-dataset = []
-for topic, msg, t in bag.read_messages(topics=['/teach_repeat/reported_error']):
-    dataset.append((t,msg.data[0], msg.data[1], msg.data[2]))
 
-time, errX, errY, errTheta = zip(*dataset)
+time, errX, errY, errTheta = RosTools.errorsOfRosbag('/teach_repeat/reported_error', bag)
 
-doubleTime = []
-for t in time:
-    doubleTime.append(t.to_time())
-
-plt.plot(doubleTime, errX)
-plt.plot(doubleTime, errY)
-plt.plot(doubleTime, errTheta)
+plt.plot(time, errX)
+plt.plot(time, errY)
+plt.plot(time, errTheta)
 plt.legend(["X","Y","Theta"], loc=0)
 plt.show()
 
