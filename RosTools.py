@@ -11,8 +11,9 @@ def errorsOfRosbag(topic, rosbag):
 
     time, errX, errY, errTheta = zip(*dataset)
     doubleTime = []
+    t0 = time[0]
     for t in time:
-        doubleTime.append(t.to_time())
+        doubleTime.append((t-t0).to_sec())
 
     return (doubleTime, errX, errY, errTheta)
 
