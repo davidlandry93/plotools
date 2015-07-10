@@ -4,7 +4,7 @@ import argparse
 import numpy
 import matplotlib.pyplot as plt
 import rosbag
-import RosTools
+import trutil
 
 parser = argparse.ArgumentParser(description='Plot the error values from a teach and repeat bag.')
 parser.add_argument('bagfile1', type=file, help='The name of the bag to parse')
